@@ -16,7 +16,7 @@ void listProcess() {
     vector<string> procs;
 
     procs = parseProc();
-    for(const string pid : procs){
+    for(const string &pid : procs){
         cout<< pid<< endl;
     }
 }
@@ -32,6 +32,7 @@ vector<string> parseProc() {
             procs.push_back(entry.path().filename().string());
         }
     }
+    return procs;
 }
 
 
