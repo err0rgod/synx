@@ -17,7 +17,7 @@ bool validPid(string directory) {
 }
 vector<string> parseProc() {
     // open ./proc and read all the directories that are numbers
-    string procPath = "./proc";
+    string procPath = "/proc";
     vector<string> procs;
 
     // collect only those directories that are numbers
