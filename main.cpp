@@ -3,24 +3,18 @@
 #include <vector>
 #include <filesystem>
 #include <sstream>
+
+
 namespace fs = std::filesystem;
 using namespace std;
 
-int main() {
-    std::cout << "synx v0.1\n";
-    return 0;
+
+bool validPid(string directory) {
+    // check if the directry is a valid pid or not
+    stringstream ss(directory);
+    int num;
+    return (ss >> num) && (ss >> ws).eof();
 }
-
-void listProcess() {
-    // Function implementation goes here
-    vector<string> procs;
-
-    procs = parseProc();
-    for(const string &pid : procs){
-        cout<< pid<< endl;
-    }
-}
-
 vector<string> parseProc() {
     // open ./proc and read all the directories that are numbers
     string procPath = "./proc";
@@ -35,10 +29,17 @@ vector<string> parseProc() {
     return procs;
 }
 
+void listProcess() {
+    // Function implementation goes here
+    vector<string> procs;
 
-bool validPid(string directory) {
-    // check if the directry is a valid pid or not
-    stringstream ss(directory);
-    int num;
-    return (ss >> num) && (ss >> ws).eof();
+    procs = parseProc();
+    for(const string &pid : procs){
+        cout<< pid<< endl;
+    }
+}
+
+int main() {
+    std::cout << "synx v0.1\n";
+    return 0;
 }
