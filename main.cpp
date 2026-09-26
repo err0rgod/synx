@@ -40,6 +40,6 @@ void listProcess() {
 }
 
 int main() {
-    std::cout << "synx v0.1\n";
+    listProcess();
     return 0;
 }
