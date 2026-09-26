@@ -1,5 +1,5 @@
 Phase 0 — Foundation
-□ Create project folder + git repo
+
 □ Write Makefile (build, clean, run)
 □ Write main.cpp with main()
 □ Hand-written subcommand parser (no library)
