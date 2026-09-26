@@ -1,0 +1,81 @@
+Phase 0 — Foundation
+□ Create project folder + git repo
+□ Write Makefile (build, clean, run)
+□ Write main.cpp with main()
+□ Hand-written subcommand parser (no library)
+□ Global flags: --help, --version
+□ Error handling + exit codes
+□ sysx --help prints subcommand list
+□ sysx bogus exits with code 2
+Phase 1 — v0.1: dumb table
+□ opendir("/proc")
+□ Filter numeric entries only
+□ Read /proc/<pid>/stat → pid, comm, state
+□ Handle process disappearing mid-read
+□ Print aligned table
+□ sysx ps works
+□ STOP. Commit. Don't add features yet.
+Phase 2 — Real process info
+□ Parse /proc/<pid>/status (UID, GID, VmRSS, Threads)
+□ Parse /proc/<pid>/cmdline
+□ Parse /proc/<pid>/statm
+□ sysx info <pid> implemented
+Phase 3 — CPU% and MEM%
+□ Read /proc/stat (system jiffies)
+□ Read per-process CPU ticks
+□ Sleep + re-read → compute delta
+□ Read /proc/meminfo for total memory
+□ Compute MEM% = RSS / total
+□ --sort cpu
+□ --sort memory
+□ Verify output matches ps aux
+Phase 4 — Filtering and formatting
+□ --user <name>
+□ --state <s>
+□ --name <pattern>
+□ --limit N
+□ ioctl(TIOCGWINSZ) for terminal width
+□ Column alignment adapts to width
+□ --json output for ps and info
+□ --no-color
+Phase 5 — Open files (mini lsof)
+□ readlink on /proc/<pid>/fd/*
+□ Parse /proc/<pid>/maps
+□ sysx open-files <pid>
+□ sysx open-files --file <path> (reverse lookup)
+Phase 6 — Network
+□ Parse /proc/net/tcp, tcp6, udp, udp6
+□ Map socket inode → PID via /proc/<pid>/fd/*
+□ sysx net
+□ sysx net <pid>
+Phase 7 — Signals
+□ sysx kill <pid> → SIGTERM + confirmation prompt
+□ --force → SIGKILL
+□ Handle EPERM, ESRCH, invalid PID
+Phase 8 — Watch mode
+□ sysx watch <pid> refresh every N ms
+□ Clear + redraw without flicker
+□ Ctrl+C handled gracefully
+□ Process disappears → clean message, exit 0
+Phase 9 — Process tree
+□ Build PPID map
+□ ASCII tree renderer
+□ sysx tree
+□ sysx tree <root-pid>
+Phase 10 — Optional TUI
+□ Raw terminal mode (termios)
+□ Arrow key navigation
+□ Sort toggle (c / m)
+□ CPU/memory sparklines
+Final acceptance test
+□ sysx ps matches ps on same processes
+□ --sort cpu correct over a delta
+□ sysx info 1 shows full detail
+□ sysx open-files <pid> matches ls -l /proc/<pid>/fd
+□ sysx net <pid> matches socket inodes correctly
+□ sysx kill confirms + sends signal
+□ sysx watch exits cleanly on Ctrl+C
+□ sysx tree renders correct ASCII tree
+□ --json valid on every read command
+□ No crashes: disappearing procs, permission denied, PID reuse
+□ Zero third-party libraries
