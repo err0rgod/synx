@@ -4,17 +4,24 @@
 #include <filesystem>
 #include <sstream>
 #include <fstream>
+#include <iterator>
+
 
 namespace fs = std::filesystem;
 using namespace std;
 
 void printProcs(string pid){
     const string path = "/proc/"+pid+"/stat";
-    int size = filesystem::file_size(path);
-    string content(size, '\0');
 
     ifstream in(path, ios::binary);
-    in.read(content.data(), size);
+    if(!in){
+        cout<< "File not Found"<< endl;
+    }
+
+    string content(
+        (istreambuf_iterator<char>(in)),
+        istreambuf_iterator<char>()
+    );
     cout<< content << endl;
 }
 
