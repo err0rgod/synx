@@ -24,9 +24,6 @@ void printProcs(string pid){
     );
     cout<< content << endl;
     // fetch only valuable data 
-    int pid;
-    string procName;
-    char state;
     /*
         State Table
         R	Running or runnable (on the run queue)
