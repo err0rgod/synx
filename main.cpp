@@ -51,10 +51,10 @@ void printProcs(string pid){
         bits += it;
     }
     // tempStat -> 0 = pid 1 = name 2 = state
-    int pid = stoi(tempStat[0]);
+    int proccessId = stoi(tempStat[0]);
     string procName = tempStat[1];
     string procState = tempStat[2];
-    cout << pid << " " << procName << " " << procState << endl;
+    cout << proccessId << " " << procName << " " << procState << endl;
 
 }
 
