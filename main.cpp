@@ -23,6 +23,42 @@ void printProcs(string pid){
         istreambuf_iterator<char>()
     );
     cout<< content << endl;
+    // fetch only valuable data 
+    int pid;
+    string procName;
+    char state;
+    /*
+        State Table
+        R	Running or runnable (on the run queue)
+        S	Sleeping in an interruptible wait (most processes)
+        D	Uninterruptible sleep (usually disk I/O) — cannot be killed
+        Z	Zombie — terminated, waiting for parent to wait()
+        T	Stopped by a signal (SIGSTOP/SIGTSTP), or traced
+        t	Tracing stop (Linux 2.6.33+)
+        I	Idle kernel thread (Linux 4.14+)
+        X / x	Dead (should never be seen)
+        P	Parked (Linux 3.9+)
+        W	Paging (only pre-2.6.0; now means "waking" in old ranges)
+        K	Wakekill (2.6.33 – 3.13)
+    */
+    vector<string> tempStat;
+    string bits = "";
+    int counter = 3;
+    for(auto &it: content){
+        if(counter == 0) break;
+        if(it == ' '){
+            tempStat.push_back(bits);
+            bits = "";
+            counter--;
+        }
+        bits += it;
+    }
+    // tempStat -> 0 = pid 1 = name 2 = state
+    int pid = stoi(tempStat[0]);
+    string procName = tempStat[1];
+    string procState = tempStat[2];
+    cout << pid << " " << procName << " " << procState << endl;
+
 }
 
 bool validPid(string directory) {
