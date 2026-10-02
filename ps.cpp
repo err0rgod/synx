@@ -65,14 +65,13 @@ void printProcs(string pid){
             tempStat.push_back(bits);
             bits = "";
             counter--;
-            continue;
         }
         bits += it;
     }
     // tempStat -> 0 = pid 1 = name 2 = state
     int proccessId = stoi(tempStat[0]);
     string procName = tempStat[1];
-    procName = procName.substr(1, procName.size() -2);
+    procName = procName.substr(2, procName.size() -2);
     string procState = tempStat[2];
     printTable(proccessId, procName, procState);
 
