@@ -13,9 +13,8 @@ using namespace std;
 void printHeader() {
     cout << left
          << setw(10) << "PID"
-         << setw(30) << "PROCESS"
-         << setw(10) << "STATE"
-         << "COMMAND" << '\n';
+         << setw(45) << "PROCESS"
+         << setw(10) << "STATE";
 
     cout << string(10 + 30 + 10 + 7, '-') << '\n';
 }
@@ -23,9 +22,8 @@ void printHeader() {
 void printTable(int pid, string procName, string state){
     std::cout << std::left
               << std::setw(10)  << pid
-              << std::setw(30) << procName 
-              << std::setw(8)  << state
-              << "bash" << "\n";
+              << std::setw(45) << procName 
+              << std::setw(10)  << state;
 }
 
 void printProcs(string pid){
