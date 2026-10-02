@@ -1,6 +1,5 @@
 Phase 0 — Foundation
 
-build the function to list the state pid and the 1,2,3
 □ Hand-written subcommand parser (no library)
 □ Global flags: --help, --version
 □ Error handling + exit codes
