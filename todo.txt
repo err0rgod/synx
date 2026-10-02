@@ -1,14 +1,4 @@
-Phase 0 — Foundation
 
-□ Hand-written subcommand parser (no library)
-□ Global flags: --help, --version
-□ Error handling + exit codes
-□ sysx --help prints subcommand list
-□ sysx bogus exits with code 2
-Phase 1 — v0.1: dumb table
-□ opendir("/proc")
-□ Filter numeric entries only
-□ Read /proc/<pid>/stat → pid, comm, state
 □ Handle process disappearing mid-read
 □ Print aligned table
 □ sysx ps works

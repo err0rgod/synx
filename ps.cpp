@@ -5,16 +5,36 @@
 #include <sstream>
 #include <fstream>
 #include <iterator>
+#include <iomanip>
 
 namespace fs = std::filesystem;
 using namespace std;
+
+void printHeader() {
+    cout << left
+         << setw(10) << "PID"
+         << setw(30) << "PROCESS"
+         << setw(10) << "STATE"
+         << "COMMAND" << '\n';
+
+    cout << string(10 + 30 + 10 + 7, '-') << '\n';
+}
+
+void printTable(int pid, string procName, string state){
+    std::cout << std::left
+              << std::setw(10)  << pid
+              << std::setw(30) << procName 
+              << std::setw(8)  << state
+              << "bash" << "\n";
+}
 
 void printProcs(string pid){
     const string path = "/proc/"+pid+"/stat";
 
     ifstream in(path, ios::binary);
     if(!in){
-        cout<< "File not Found"<< endl;
+        // cout<< "File not Found"<< endl;
+        return;
     }
 
     string content(
@@ -54,7 +74,7 @@ void printProcs(string pid){
     procName[procName.size()-1] = ' ';
     procName[0] = ' ';
     string procState = tempStat[2];
-    cout << proccessId << " " << procName << " " << procState << endl;
+    printTable(proccessId, procName, procState);
 
 }
 
@@ -83,9 +103,10 @@ vector<string> parseProc() {
 
 void listProcess() {
     // Function implementation goes here
-    vector<string> procs;
+    vector<string> procs = parseProc();
 
-    procs = parseProc();
+    printHeader();
+    
     for(const string &pid : procs){
         printProcs(pid);
     }
