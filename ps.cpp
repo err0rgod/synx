@@ -71,8 +71,7 @@ void printProcs(string pid){
     // tempStat -> 0 = pid 1 = name 2 = state
     int proccessId = stoi(tempStat[0]);
     string procName = tempStat[1];
-    procName[procName.size()-1] = ' ';
-    procName[0] = ' ';
+    procName = procName.substr(1, procName.size() -2);
     string procState = tempStat[2];
     printTable(proccessId, procName, procState);
 
@@ -106,7 +105,7 @@ void listProcess() {
     vector<string> procs = parseProc();
 
     printHeader();
-    
+
     for(const string &pid : procs){
         printProcs(pid);
     }
