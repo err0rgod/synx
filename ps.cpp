@@ -65,6 +65,7 @@ void printProcs(string pid){
             tempStat.push_back(bits);
             bits = "";
             counter--;
+            continue;
         }
         bits += it;
     }
