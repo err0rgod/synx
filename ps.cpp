@@ -12,6 +12,42 @@
 namespace fs = std::filesystem;
 using namespace std;
 
+void showCmdline(string pid){
+    const string path = "/proc/"+pid+"/cmdline";
+
+    ifstream in(path, ios::binary);
+
+    if(!in){
+        cout<<"Error: PID does not exists.";
+        return;
+    }
+
+    string content(
+        (istreambuf_iterator<char>(in)),
+        istreambuf_iterator<char>()
+    );
+
+    cout<< content<< endl;
+}
+
+void detailedProcess(string pid){
+    const string path = "/proc/"+pid+"/status";
+
+    ifstream in(path, ios::binary);
+
+    if(!in){
+        cout<<"Error: PID does not exists.";
+        return;
+    }
+
+    string content(
+        (istreambuf_iterator<char>(in)),
+        istreambuf_iterator<char>()
+    );
+
+    cout<< content<< endl;
+}
+
 void printHeader() {
     cout << left
          << setw(10) << "PID"
@@ -23,10 +59,24 @@ void printHeader() {
 }
 
 void printTable(int pid, string procName, string state){
+
+    string stateName = "";
+    if(state == "S"){ stateName = "Stopped";}
+    if(state == "R"){ stateName = "Running";}
+    if(state == "D"){ stateName = "Unintrruptible";}
+    if(state == "Z"){ stateName = "Zombie";}
+    if(state == "T"){ stateName = "Traced";}
+    if(state == "t"){ stateName = "Tracing stop";}
+    if(state == "I"){ stateName = "Idle Kernel thread";}
+    if(state == "X" || state == "x"){ stateName = "Dead";}
+    if(state == "P"){ stateName = "Parked";}
+    if(state == "W"){ stateName = "Waking";}
+    if(state == "K"){ stateName = "Wakekill";}
+
     std::cout << std::left
               << std::setw(10)  << pid
               << std::setw(45) << procName 
-              << std::setw(10)  << state
+              << std::setw(10)  << stateName
               << "\n";
 
 }
@@ -44,22 +94,7 @@ void printProcs(string pid){
         (istreambuf_iterator<char>(in)),
         istreambuf_iterator<char>()
     );
-    // fetch only valuable data 
-    /*
-        State Table
-        R	Running or runnable (on the run queue)
-        S	Sleeping in an interruptible wait (most processes)
-        D	Uninterruptible sleep (usually disk I/O) — cannot be killed
-        Z	Zombie — terminated, waiting for parent to wait()
-        T	Stopped by a signal (SIGSTOP/SIGTSTP), or traced
-        t	Tracing stop (Linux 2.6.33+)
-        I	Idle kernel thread (Linux 4.14+)
-        X / x	Dead (should never be seen)
-        P	Parked (Linux 3.9+)
-        W	Paging (only pre-2.6.0; now means "waking" in old ranges)
-        K	Wakekill (2.6.33 – 3.13)
-    */
-    // find the parenthesis
+    
     size_t openParen = content.find('(');
     size_t closeParen = content.find(')');
 

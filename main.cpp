@@ -17,12 +17,17 @@ int main(int argc, char **argv) {
     
     app.set_version_flag("-V, --version","0.1.0");
 
+    string pid;
     auto* ps = app.add_subcommand("ps", "List Processes");
+    auto* detail_flag = ps->add_option("-d,--detail", pid , "Detailed View of a PID");
+    auto* cmdline_flag = ps->add_option("-c,--cmdline", pid , "View the Origin Command");
 
     CLI11_PARSE(app, argc, argv);
 
-    if(*ps){
-        listProcess();
+    if(*ps) { 
+        if(*detail_flag) detailedProcess(pid);
+        else if(*cmdline_flag) showCmdline(pid);
+        else listProcess(); 
     }
 
     return 0;
