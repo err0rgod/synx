@@ -15,7 +15,11 @@ int main(int argc, char **argv) {
     // initialises the CLI11 so that we can use the arguements
     CLI::App app{"Synx: Your daily linux driver."};
     
-    app.set_version_flag("-V, --version","0.1.0");
+    app.set_help_flag("");
+
+    app.set_help_all_flag("-h,--help", "Print help message");
+
+    app.set_version_flag("-V, --version", "0.1.0");
 
     string pid;
     auto* ps = app.add_subcommand("ps", "List Processes");
