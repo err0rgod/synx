@@ -7,6 +7,8 @@
 #include <iterator>
 #include <iomanip>
 
+#include "ps.hpp"
+
 namespace fs = std::filesystem;
 using namespace std;
 
@@ -14,16 +16,19 @@ void printHeader() {
     cout << left
          << setw(10) << "PID"
          << setw(45) << "PROCESS"
-         << setw(10) << "STATE";
+         << setw(10) << "STATE" << 
+         "\n";
 
-    cout << string(10 + 30 + 10 + 7, '-') << '\n';
+    cout << string(10 + 45 + 10 + 7, '-') << '\n';
 }
 
 void printTable(int pid, string procName, string state){
     std::cout << std::left
               << std::setw(10)  << pid
               << std::setw(45) << procName 
-              << std::setw(10)  << state;
+              << std::setw(10)  << state
+              << "\n";
+
 }
 
 void printProcs(string pid){
@@ -54,24 +59,26 @@ void printProcs(string pid){
         W	Paging (only pre-2.6.0; now means "waking" in old ranges)
         K	Wakekill (2.6.33 – 3.13)
     */
-    vector<string> tempStat;
-    string bits = "";
-    int counter = 3;
-    for(auto &it: content){
-        if(counter == 0) break;
-        if(it == ' '){
-            tempStat.push_back(bits);
-            bits = "";
-            counter--;
-        }
-        bits += it;
+    // find the parenthesis
+    size_t openParen = content.find('(');
+    size_t closeParen = content.find(')');
+
+    // Handle no position found edge case
+    if (openParen == string::npos || closeParen == string::npos || closeParen <= openParen){
+        return;
     }
-    // tempStat -> 0 = pid 1 = name 2 = state
-    int proccessId = stoi(tempStat[0]);
-    string procName = tempStat[1];
-    procName = procName.substr(2, procName.size() -2);
-    string procState = tempStat[2];
-    printTable(proccessId, procName, procState);
+
+    int processId = stoi(content.substr(0,openParen));
+
+    string procName = content.substr(openParen+1, closeParen - openParen - 1);
+
+    stringstream rest(content.substr(closeParen+1));
+    string procState;
+    // only fetch the just after char not the whole string that is why rest is used here
+    rest >> procState;
+
+    // call table printer
+    printTable(processId, procName, procState);
 
 }
 

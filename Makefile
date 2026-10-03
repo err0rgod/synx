@@ -1,15 +1,23 @@
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra 
+
+CXXFLAGS = -std=c++17 -Wall -Wextra
+
 TARGET = synx
 
-.PHONY: all clean run 
+# Automatically detect all C++ source and header files
+SRCS = $(wildcard *.cpp)
+HDRS = $(wildcard *.hpp)
+
+.PHONY: all clean run
 
 all: $(TARGET)
 
-$(TARGET): main.cpp
-	$(CXX) $(CXXFLAGS) -o $(TARGET) main.cpp
+# If ANY .cpp or .hpp file changes, rebuild the binary using all source files!
 
-clean: 
+$(TARGET): $(SRCS) $(HDRS)
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(SRCS)
+
+clean:
 	rm -f $(TARGET)
 
 run: $(TARGET)
